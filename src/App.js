@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
+import TaskList from "./TaskList";
 import { todos } from "./data";
 
 function App() {
   const [theme, setTheme] = useState("light");
+  const [tasks, setTasks] = useState(todos);
+  // const [newTask, setNewTask] = useState("");
 
   // The function that toggles between themes
   const toggleTheme = () => {
@@ -15,6 +18,19 @@ function App() {
       // otherwise, it should be light
     } else {
       setTheme("light");
+    }
+  };
+
+  const addTask = (e) => {
+    if (e.key === "Enter") {
+      console.log(e.target.value);
+      let todo = {
+        task: e.target.value,
+        status: "pending",
+      };
+      let newTasks = tasks.push(todo);
+      setTasks(newTasks);
+      e.target.value = "";
     }
   };
 
@@ -74,38 +90,11 @@ function App() {
                   type="text"
                   placeholder="Create a new todo.."
                   defaultValue=""
+                  onKeyDown={(e) => addTask(e)}
                 />
               </div>
-              <div className="task-list">
-                <div className="item">
-                  <div className="right flex">
-                    <div className="check">
-                      <img
-                        className="check-icon"
-                        src="./images/icon-check.svg"
-                        alt="check icon"
-                      />
-                    </div>
-                    <div className="todo-item">
-                      Complete JavaScript tutorial Online
-                    </div>
-                  </div>
-                  <img
-                    className="cross"
-                    src="./images/icon-cross.svg"
-                    alt="icon cross"
-                  />
-                </div>
-                <div className="mob-bottom">
-                  <p>3 items left</p>
-                  <div className="desktop-footer">
-                    <p className="active">All</p>
-                    <p>Active</p>
-                    <p>Completed</p>
-                  </div>
-                  <p>Clear Completed</p>
-                </div>
-              </div>
+
+              <TaskList todos={tasks} />
 
               <div className="footer flex">
                 <p>All</p>
