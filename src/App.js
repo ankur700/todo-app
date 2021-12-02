@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
+import { todos } from "./data";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -61,7 +62,7 @@ function App() {
                 </div>
               </div>
               <div className="new-task relative">
-                <div className="check" data-checked="pending">
+                <div className="check">
                   <img
                     className="check-icon"
                     src="./images/icon-check.svg"
@@ -78,7 +79,7 @@ function App() {
               <div className="task-list">
                 <div className="item">
                   <div className="right flex">
-                    <div className="check" data-checked="completed">
+                    <div className="check">
                       <img
                         className="check-icon"
                         src="./images/icon-check.svg"
