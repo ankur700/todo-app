@@ -2,36 +2,66 @@ import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
-import TaskList from "./TaskList";
-import { todos } from "./data";
+import AddTask from "./AddTask";
+import Task from "./Task";
+// import { todos } from "./data";
 
 function App() {
   const [theme, setTheme] = useState("light");
-  const [tasks, setTasks] = useState(todos);
-  // const [newTask, setNewTask] = useState("");
+  const [tasks, setTasks] = useState([
+    {
+      task: "Complete online JavaScript course.",
+      status: "completed",
+    },
+    {
+      task: "Jog around the park 3x.",
+      status: "pending",
+    },
+    {
+      task: "10 minutes meditation.",
+      status: "pending",
+    },
+    {
+      task: "Read for 1 hour.",
+      status: "pending",
+    },
+    {
+      task: "Pick up groceries.",
+      status: "pending",
+    },
+    {
+      task: "Complete Todo App on Frontend Mentor.",
+      status: "pending",
+    },
+  ]);
 
   // The function that toggles between themes
   const toggleTheme = () => {
     // if the theme is not light, then set it to dark
     if (theme === "light") {
       setTheme("dark");
+      console.log(tasks);
       // otherwise, it should be light
     } else {
       setTheme("light");
     }
   };
 
-  const addTask = (e) => {
-    if (e.key === "Enter") {
-      console.log(e.target.value);
-      let todo = {
-        task: e.target.value,
-        status: "pending",
-      };
-      let newTasks = tasks.push(todo);
-      setTasks(newTasks);
-      e.target.value = "";
-    }
+  const addTask = (task) => {
+    const newTasks = [...tasks, { task, status: "pending" }];
+    setTasks(newTasks);
+  };
+
+  const completeTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks[index].status = "completed";
+    setTasks(newTasks);
+  };
+
+  const removeTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
   };
 
   return (
@@ -77,24 +107,24 @@ function App() {
                   />
                 </div>
               </div>
-              <div className="new-task relative">
-                <div className="check">
-                  <img
-                    className="check-icon"
-                    src="./images/icon-check.svg"
-                    alt="check icon"
-                  />
-                </div>
-                <input
-                  id="new--task"
-                  type="text"
-                  placeholder="Create a new todo.."
-                  defaultValue=""
-                  onKeyDown={(e) => addTask(e)}
-                />
-              </div>
 
-              <TaskList todos={tasks} />
+              <AddTask addTask={addTask} />
+
+              <div className="task-list">
+                {tasks.map((task, index) => {
+                  return (
+                    <>
+                      <Task
+                        task={task}
+                        index={index}
+                        key={index}
+                        completeTask={completeTask}
+                        removeTask={removeTask}
+                      />
+                    </>
+                  );
+                })}
+              </div>
 
               <div className="footer flex">
                 <p>All</p>

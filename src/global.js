@@ -110,6 +110,7 @@ body {
 .icon {
   height: 1.125rem;
   width: 1.125rem;
+  cursor: pointer;
 }
 
 .new-task {
@@ -143,24 +144,6 @@ body {
   cursor: pointer;
 }
 
-.check[data-checked="completed"] {
-  background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-}
-
-.check[data-checked="pending"] {
-  background: transparent;
-}
-
-.check[data-checked="completed"] > .check-icon {
-  visibility: visible;
-}
-
-
-
-.check-icon {
-  visibility: hidden;
-}
-
 .item:nth-of-type(1) {
   border-radius: 5px 5px 0 0;
 }
@@ -183,6 +166,7 @@ body {
 .item .cross {
   height: 10px;
   width: 10px;
+  cursor: pointer;
 }
 
 .desktop-footer {
@@ -223,8 +207,13 @@ footer p {
 input[type="text"] {
   height: 50px;
   border: 0;
+  width: 100%;
   outline: none;
   padding: 0.5rem;
+  appearance: none;
+  background: transparent;
+}
+input[type="text"]:focus{
   appearance: none;
   background: transparent;
 }
