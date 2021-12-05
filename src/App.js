@@ -40,7 +40,7 @@ function App() {
     // if the theme is not light, then set it to dark
     if (theme === "light") {
       setTheme("dark");
-      console.log(tasks);
+      // console.log(tasks);
       // otherwise, it should be light
     } else {
       setTheme("light");
@@ -48,13 +48,19 @@ function App() {
   };
 
   const addTask = (task) => {
-    const newTasks = [...tasks, { task, status: "pending" }];
+    const newTasks = [...tasks, { task: task, status: "pending" }];
     setTasks(newTasks);
   };
 
-  const completeTask = (index) => {
+  const completeTask = (task) => {
     const newTasks = [...tasks];
-    newTasks[index].status = "completed";
+    let status = task.status;
+    if (status === "pending") {
+      task.status = "completed";
+    } else if (status === "completed") {
+      task.status = "pending";
+    }
+    // console.log(index);
     setTasks(newTasks);
   };
 
@@ -68,7 +74,7 @@ function App() {
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <>
         <GlobalStyles />
-        <div className="main">
+        <div className="main" id={theme}>
           <div className="container grid">
             <div className="hero">
               <picture>
@@ -127,6 +133,10 @@ function App() {
               </div>
 
               <div className="footer flex">
+                <div class="mob-bottom">
+                  <p>items left</p>
+                  <p>Clear Completed</p>
+                </div>
                 <p>All</p>
                 <p>Active</p>
                 <p>Completed</p>

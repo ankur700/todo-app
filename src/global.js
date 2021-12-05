@@ -127,11 +127,11 @@ body {
   padding: 0 1rem;
 }
 
+
 .check {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.lighttext};
   padding: 0.32rem;
   display: flex;
   justify-content: center;
@@ -139,9 +139,35 @@ body {
   cursor: pointer;
 }
 
+#dark .check {
+  border: 1px solid ${({ theme }) => theme.radioCheckBg};
+}
+
+#light .check {
+  border: 1px solid ${({ theme }) => theme.lighttext};
+}
+
 .check img {
   object-fit: cover;
   cursor: pointer;
+}
+
+.check[data-checked="completed"] {
+  background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+}
+
+.check[data-checked="pending"] {
+  background: transparent;
+}
+
+.check[data-checked="completed"] > .check-icon {
+  visibility: visible;
+}
+
+
+
+.check-icon {
+  visibility: hidden;
 }
 
 .item:nth-of-type(1) {
@@ -233,8 +259,15 @@ input[type="text"]:focus{
     gap: 1rem;
   }
 
-  .footer {
-    display: none;
+  #light .check {
+    border: 1px solid ${({ theme }) => theme.lighttext};
   }
+
+  #light .check:hover {
+  border: 1px solid ${({ theme }) => theme.darkertext};
+}
+
+#dark .check:hover {
+  border: 1px solid linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
 }
 `;

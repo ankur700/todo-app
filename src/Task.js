@@ -1,4 +1,3 @@
-
 function Task({ task, index, completeTask, removeTask }) {
   return (
     <>
@@ -6,21 +5,13 @@ function Task({ task, index, completeTask, removeTask }) {
         <div className="right flex">
           <div
             className="check"
-            style={{
-              background:
-                task.status === "completed"
-                  ? "linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))"
-                  : "",
-            }}
+            data-checked={task.status}
+            onClick={() => completeTask(task)}
           >
             <img
               className="check-icon"
               src="./images/icon-check.svg"
               alt="check icon"
-              onClick={() => completeTask(index)}
-              style={{
-                visibility: task.status === "completed" ? "visible" : "hidden",
-              }}
             />
           </div>
           <div
