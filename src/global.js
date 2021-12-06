@@ -9,6 +9,8 @@ export const GlobalStyles = createGlobalStyle`
   box-sizing: border-box;
 }
 
+
+
 body {
   margin: 0;
   font-family: "Josefin Sans", sans-serif;
@@ -152,15 +154,15 @@ body {
   cursor: pointer;
 }
 
-.check[data-checked="completed"] {
+.right[data-checked="completed"] .check{
   background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
 }
 
-.check[data-checked="pending"] {
+.right[data-checked="pending"] .check{
   background: transparent;
 }
 
-.check[data-checked="completed"] > .check-icon {
+.right[data-checked="completed"] .check > .check-icon {
   visibility: visible;
 }
 
@@ -184,19 +186,39 @@ body {
   align-items: center;
 }
 
+
 .todo-item {
-  color: ${({ theme }) => theme.darkertext};
   font-weight: var(--fw-700);
+  font-family: "Josefin Sans", sans-serif;
+  cursor: pointer;
+}
+
+
+#light .right[data-checked="completed"] .todo-item {
+  color: hsl(233, 11%, 84%);
+}
+
+#light .right[data-checked="pending"] .todo-item {
+  color: hsl(235, 19%, 35%);
+}
+
+#dark .right[data-checked="completed"] .todo-item {
+  color: hsl(235, 19%, 35%);
+}
+
+#dark .right[data-checked="pending"] .todo-item {
+  color: hsl(233, 11%, 84%);
 }
 
 .item .cross {
+  visibility: hidden;
   height: 10px;
   width: 10px;
   cursor: pointer;
 }
 
-.desktop-footer {
-  display: none;
+.item:hover .cross {
+  visibility: visible;
 }
 
 .mob-bottom {
@@ -206,7 +228,6 @@ body {
   align-items: center;
   height: 50px;
   background: ${({ theme }) => theme.cardbg};
-  color: ${({ theme }) => theme.darktext};
   font-size: 0.75rem;
   padding: 0 1rem;
 }
@@ -217,17 +238,32 @@ body {
   align-items: center;
   height: 50px;
   background: ${({ theme }) => theme.cardbg};
-  color: ${({ theme }) => theme.darktext};
   font-size: 0.75rem;
   padding: 0 1rem;
   gap: 2rem;
   border-radius: 5px;
 }
 
-footer p {
-  font-size: 18px;
+.footer{
+  font-size: 12px;
   font-weight: normal;
   text-transform: capitalize;
+}
+
+.mob-bottom, .footer {
+  color: ${({ theme }) => theme.darktext};
+}
+
+.mob-bottom .mob-corners{
+  cursor: pointer;
+}
+
+#light .footer > .corner:hover , #light .desktop-bottom > .filter:hover, #light .mob-bottom > .mob-corners:hover {
+  color: ${({ theme }) => theme.darkertext};
+}
+
+#dark .footer > .corner:hover , #dark .desktop-bottom > .filter:hover, #dark .mob-bottom > .mob-corners:hover {
+  color: ${({ theme }) => theme.lighttext};
 }
 
 input[type="text"] {
@@ -244,6 +280,16 @@ input[type="text"]:focus{
   background: transparent;
 }
 
+  .corner {
+    display: none;
+  }
+
+
+.desktop-bottom {
+  display: flex;
+  gap: 1rem;
+}
+
 @media only screen and (min-width: 600px) {
   .hero {
     height: 280px;
@@ -254,10 +300,6 @@ input[type="text"]:focus{
     margin-top: 5rem;
   }
 
-  .desktop-footer {
-    display: flex;
-    gap: 1rem;
-  }
 
   #light .check {
     border: 1px solid ${({ theme }) => theme.lighttext};
@@ -265,9 +307,29 @@ input[type="text"]:focus{
 
   #light .check:hover {
   border: 1px solid ${({ theme }) => theme.darkertext};
-}
+  }
 
-#dark .check:hover {
-  border: 1px solid linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-}
+  #dark .check:hover {
+    border: 1px solid linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  }
+
+  .mob-bottom {
+    display: none;
+  }
+
+  .footer {
+    justify-content: space-between;
+  }
+
+  .corner {
+    display: block;
+  }
+
+  .desktop-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  
 `;

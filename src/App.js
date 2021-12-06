@@ -3,8 +3,7 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
 import AddTask from "./AddTask";
-import Task from "./Task";
-// import { todos } from "./data";
+import TabGroup from "./Tabs";
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -34,13 +33,15 @@ function App() {
       status: "pending",
     },
   ]);
+  const [itemsLeft, setItemLeft] = useState(
+    tasks.filter((task) => task.status === "pending").length
+  );
 
   // The function that toggles between themes
   const toggleTheme = () => {
     // if the theme is not light, then set it to dark
     if (theme === "light") {
       setTheme("dark");
-      // console.log(tasks);
       // otherwise, it should be light
     } else {
       setTheme("light");
@@ -50,6 +51,7 @@ function App() {
   const addTask = (task) => {
     const newTasks = [...tasks, { task: task, status: "pending" }];
     setTasks(newTasks);
+    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
   const completeTask = (task) => {
@@ -60,14 +62,15 @@ function App() {
     } else if (status === "completed") {
       task.status = "pending";
     }
-    // console.log(index);
     setTasks(newTasks);
+    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
   const removeTask = (index) => {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
+    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
   return (
@@ -81,16 +84,16 @@ function App() {
                 <source
                   id="hero-image-small"
                   media="(min-width: 375px )"
-                  srcSet="./images/bg-mobile-light.jpg"
+                  srcSet={"./images/bg-mobile-" + theme + ".jpg"}
                 />
                 <source
                   id="hero-image-big"
                   media="(min-width: 700px )"
-                  srcSet="./images/bg-desktop-light.jpg"
+                  srcSet={"./images/bg-desktop-" + theme + ".jpg"}
                 />
                 <img
                   id="hero-image"
-                  src="./images/bg-desktop-light.jpg"
+                  src={"./images/bg-mobile-" + theme + ".jpg"}
                   alt="hero"
                 />
               </picture>
@@ -115,32 +118,13 @@ function App() {
               </div>
 
               <AddTask addTask={addTask} />
-
-              <div className="task-list">
-                {tasks.map((task, index) => {
-                  return (
-                    <>
-                      <Task
-                        task={task}
-                        index={index}
-                        key={index}
-                        completeTask={completeTask}
-                        removeTask={removeTask}
-                      />
-                    </>
-                  );
-                })}
-              </div>
-
-              <div className="footer flex">
-                <div class="mob-bottom">
-                  <p>items left</p>
-                  <p>Clear Completed</p>
-                </div>
-                <p>All</p>
-                <p>Active</p>
-                <p>Completed</p>
-              </div>
+              <TabGroup
+                completeTask={completeTask}
+                removeTask={removeTask}
+                tasks={tasks}
+                itemsLeft={itemsLeft}
+                theme={theme}
+              />
             </div>
           </div>
           <div className="attribution">
@@ -152,7 +136,7 @@ function App() {
             >
               Frontend Mentor
             </a>
-            . Coded by{" "}
+            . Coded by
             <a
               href="https://dev.page/ankursinghchauhan"
               target="_blank"

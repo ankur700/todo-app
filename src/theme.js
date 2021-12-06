@@ -5,7 +5,6 @@ export const lightTheme = {
   lighttext: "hsl(233, 11%, 84%)",
   darktext: "hsl(236, 9%, 61%)",
   darkertext: "hsl(235, 19%, 35%)",
-
   primaryblue: "hsl(220, 98%, 61%)",
   radioCheckBg: "linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
 };

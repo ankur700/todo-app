@@ -1,13 +1,9 @@
-function Task({ task, index, completeTask, removeTask }) {
+function Task({ task, index, completeTask, removeTask, theme }) {
   return (
     <>
-      <div className="item">
-        <div className="right flex">
-          <div
-            className="check"
-            data-checked={task.status}
-            onClick={() => completeTask(task)}
-          >
+      <div key={index} className="item">
+        <div className="right flex" data-checked={task.status}>
+          <div className="check" onClick={() => completeTask(task)}>
             <img
               className="check-icon"
               src="./images/icon-check.svg"
