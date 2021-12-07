@@ -54,25 +54,6 @@ function App() {
     setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
-  const completeTask = (task) => {
-    const newTasks = [...tasks];
-    let status = task.status;
-    if (status === "pending") {
-      task.status = "completed";
-    } else if (status === "completed") {
-      task.status = "pending";
-    }
-    setTasks(newTasks);
-    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
-  };
-
-  const removeTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
-  };
-
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <>
@@ -118,13 +99,7 @@ function App() {
               </div>
 
               <AddTask addTask={addTask} />
-              <TabGroup
-                completeTask={completeTask}
-                removeTask={removeTask}
-                tasks={tasks}
-                itemsLeft={itemsLeft}
-                theme={theme}
-              />
+              <TabGroup tasks={tasks} theme={theme} itemsLeft={itemsLeft} />
             </div>
           </div>
           <div className="attribution">

@@ -17,15 +17,16 @@ const ButtonGroup = styled.div`
 `;
 const types = ["All", "Active", "Completed"];
 
-function TabGroup({ completeTask, removeTask, tasks, itemsLeft, theme }) {
+function TabGroup({ tasks, itemsLeft }) {
   const [active, setActive] = useState(types[0]);
-  const [filteredTasks, setFilteredTasks] = useState(tasks);
+  const [filteredTasks, setFilteredTasks] = useState([...tasks]);
+
   const filter = (type) => {
     setActive(type);
     if (type === "All") {
-      setFilteredTasks(tasks);
+      setFilteredTasks([...tasks]);
     } else if (type === "Active") {
-      const activeTasks = tasks.filter((task) => task.status !== "completed");
+      const activeTasks = tasks.filter((task) => task.status === "pending");
       setFilteredTasks(activeTasks);
     } else if (type === "Completed") {
       const completedTasks = tasks.filter(
@@ -35,21 +36,35 @@ function TabGroup({ completeTask, removeTask, tasks, itemsLeft, theme }) {
     }
   };
 
+  const completeTask = (task) => {
+    const newTasks = [...filteredTasks];
+    let status = task.status;
+    if (status === "pending") {
+      task.status = "completed";
+    } else if (status === "completed") {
+      task.status = "pending";
+    }
+    setFilteredTasks(newTasks);
+  };
+
+  const removeTask = (index) => {
+    const newTasks = [...filteredTasks];
+    newTasks.splice(index, 1);
+    setFilteredTasks(newTasks);
+  };
+
   return (
     <>
       <div className="task-list">
         {filteredTasks.map((task, index) => {
           return (
-            <>
-              <Task
-                task={task}
-                index={index}
-                key={index}
-                completeTask={completeTask}
-                removeTask={removeTask}
-                theme={theme}
-              />
-            </>
+            <Task
+              task={task}
+              index={index}
+              key={index}
+              completeTask={completeTask}
+              removeTask={removeTask}
+            />
           );
         })}
 

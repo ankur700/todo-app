@@ -323,6 +323,7 @@ input[type="text"]:focus{
 
   .corner {
     display: block;
+    cursor: pointer;
   }
 
   .desktop-bottom {

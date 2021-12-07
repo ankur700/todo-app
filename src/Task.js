@@ -1,4 +1,4 @@
-function Task({ task, index, completeTask, removeTask, theme }) {
+function Task({ task, index, completeTask, removeTask}) {
   return (
     <>
       <div key={index} className="item">
