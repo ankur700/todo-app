@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Task from "./Task";
-import AddTask from "./AddTask";
 
 const Tab = styled.div`
   cursor: pointer;
@@ -16,57 +15,20 @@ const Tab = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
 `;
-const types = ["All", "Active", "Completed"];
 
-function TabGroup({ tasks }) {
-  const [active, setActive] = useState(types[0]);
-  const [filteredTasks, setFilteredTasks] = useState([...tasks]);
-  const [itemsLeft, setItemLeft] = useState(
-    filteredTasks.filter((task) => task.status === "pending").length
-  );
-  const filter = (type) => {
-    setActive(type);
-    const newTasks = [...tasks];
-    if (type === "All") {
-      setFilteredTasks(newTasks);
-    } else if (type === "Active") {
-      const activeTasks = newTasks.filter((task) => task.status === "pending");
-      setFilteredTasks(activeTasks);
-    } else if (type === "Completed") {
-      const completedTasks = newTasks.filter(
-        (task) => task.status === "completed"
-      );
-      setFilteredTasks(completedTasks);
-    }
-  };
-
-  const completeTask = (task) => {
-    tasks = [...filteredTasks];
-    let status = task.status;
-    if (status === "pending") {
-      task.status = "completed";
-    } else if (status === "completed") {
-      task.status = "pending";
-    }
-    setFilteredTasks(tasks);
-  };
-
-  const removeTask = (index) => {
-    tasks = [...filteredTasks];
-    tasks.splice(index, 1);
-    setFilteredTasks(tasks);
-  };
-
-  const addTask = (task) => {
-    const newTasks = [...filteredTasks, { task: task, status: "pending" }];
-    setFilteredTasks(newTasks);
-    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
-  };
-
+function TabGroup({
+  filter,
+  completeTask,
+  removeTask,
+  active,
+  types,
+  itemsLeft,
+  filteredTasks,
+  clearCompleted,
+  tasks,
+}) {
   return (
     <>
-      <AddTask addTask={addTask} />
-
       <div className="task-list">
         {filteredTasks.map((task, index) => {
           return (
@@ -82,7 +44,16 @@ function TabGroup({ tasks }) {
 
         <div className="mob-bottom">
           <div className="mob-corners">{itemsLeft} items left</div>
-          <div className="mob-corners">Clear Completed</div>
+          <div
+            className="mob-corners"
+            onClick={() =>
+              clearCompleted([
+                tasks.filter((task) => task.status !== "pending"),
+              ])
+            }
+          >
+            Clear Completed
+          </div>
         </div>
       </div>
 
@@ -100,7 +71,14 @@ function TabGroup({ tasks }) {
             </Tab>
           ))}
         </div>
-        <div className="corner">Clear Completed</div>
+        <div
+          className="corner"
+          onClick={() =>
+            clearCompleted([tasks.filter((task) => task.status !== "pending")])
+          }
+        >
+          Clear Completed
+        </div>
       </ButtonGroup>
     </>
   );

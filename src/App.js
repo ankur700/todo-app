@@ -3,9 +3,13 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
 import TabGroup from "./Tabs";
+import AddTask from "./AddTask";
 
 function App() {
+  const types = ["All", "Active", "Completed"];
+
   const [theme, setTheme] = useState("light");
+  const [active, setActive] = useState(types[0]);
   const [tasks, setTasks] = useState([
     {
       task: "Complete online JavaScript course.",
@@ -33,6 +37,12 @@ function App() {
     },
   ]);
 
+  const [filteredTasks, setFilteredTasks] = useState([...tasks]);
+
+  const [itemsLeft, setItemLeft] = useState(
+    tasks.filter((task) => task.status === "pending").length
+  );
+
   // The function that toggles between themes
   const toggleTheme = () => {
     // if the theme is not light, then set it to dark
@@ -42,6 +52,65 @@ function App() {
     } else {
       setTheme("light");
     }
+  };
+
+  const filter = (type) => {
+    setActive(type);
+
+    if (type === "All") {
+      setFilteredTasks(tasks);
+      setItemLeft(tasks.filter((task) => task.status === "pending").length);
+    } else if (type === "Active") {
+      // const Tasks = [...newTasks];
+      const activeTasks = tasks.filter((task) => task.status === "pending");
+      setFilteredTasks(activeTasks);
+      setItemLeft(tasks.filter((task) => task.status === "pending").length);
+    } else if (type === "Completed") {
+      // const Tasks = [...newTasks];
+      const completedTasks = tasks.filter(
+        (task) => task.status === "completed"
+      );
+      setFilteredTasks(completedTasks);
+      setItemLeft(0);
+    }
+  };
+
+  const completeTask = (task) => {
+    let status = task.status;
+    if (status === "pending") {
+      task.status = "completed";
+    } else if (status === "completed") {
+      task.status = "pending";
+    }
+    const newTasks = [...tasks];
+    setTasks(newTasks);
+    setFilteredTasks(tasks);
+    setItemLeft(tasks.filter((task) => task.status === "pending").length);
+  };
+
+  const removeTask = (index) => {
+    const newTasks = [...tasks];
+
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+    setFilteredTasks(newTasks);
+    setItemLeft(itemsLeft - 1);
+  };
+
+  const addTask = (task) => {
+    const newTasks = [...tasks, { task: task, status: "pending" }];
+    setFilteredTasks(newTasks);
+    setTasks(newTasks);
+    setItemLeft(itemsLeft + 1);
+  };
+
+  const clearCompleted = () => {
+    let newTasks = [...tasks];
+    newTasks = newTasks.filter((task) => task.status === "pending");
+    // console.log(newTasks);
+
+    setTasks(newTasks);
+    setFilteredTasks(newTasks);
   };
 
   return (
@@ -87,8 +156,19 @@ function App() {
                   />
                 </div>
               </div>
+              <AddTask addTask={addTask} />
 
-              <TabGroup tasks={tasks} />
+              <TabGroup
+                tasks={tasks}
+                completeTask={completeTask}
+                removeTask={removeTask}
+                filter={filter}
+                types={types}
+                active={active}
+                itemsLeft={itemsLeft}
+                filteredTasks={filteredTasks}
+                clearCompleted={clearCompleted}
+              />
             </div>
           </div>
           <div className="attribution">
