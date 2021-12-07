@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Task from "./Task";
+import AddTask from "./AddTask";
 
 const Tab = styled.div`
   cursor: pointer;
@@ -17,19 +18,22 @@ const ButtonGroup = styled.div`
 `;
 const types = ["All", "Active", "Completed"];
 
-function TabGroup({ tasks, itemsLeft }) {
+function TabGroup({ tasks }) {
   const [active, setActive] = useState(types[0]);
   const [filteredTasks, setFilteredTasks] = useState([...tasks]);
-
+  const [itemsLeft, setItemLeft] = useState(
+    filteredTasks.filter((task) => task.status === "pending").length
+  );
   const filter = (type) => {
     setActive(type);
+    const newTasks = [...tasks];
     if (type === "All") {
-      setFilteredTasks([...tasks]);
+      setFilteredTasks(newTasks);
     } else if (type === "Active") {
-      const activeTasks = tasks.filter((task) => task.status === "pending");
+      const activeTasks = newTasks.filter((task) => task.status === "pending");
       setFilteredTasks(activeTasks);
     } else if (type === "Completed") {
-      const completedTasks = tasks.filter(
+      const completedTasks = newTasks.filter(
         (task) => task.status === "completed"
       );
       setFilteredTasks(completedTasks);
@@ -37,24 +41,32 @@ function TabGroup({ tasks, itemsLeft }) {
   };
 
   const completeTask = (task) => {
-    const newTasks = [...filteredTasks];
+    tasks = [...filteredTasks];
     let status = task.status;
     if (status === "pending") {
       task.status = "completed";
     } else if (status === "completed") {
       task.status = "pending";
     }
-    setFilteredTasks(newTasks);
+    setFilteredTasks(tasks);
   };
 
   const removeTask = (index) => {
-    const newTasks = [...filteredTasks];
-    newTasks.splice(index, 1);
+    tasks = [...filteredTasks];
+    tasks.splice(index, 1);
+    setFilteredTasks(tasks);
+  };
+
+  const addTask = (task) => {
+    const newTasks = [...filteredTasks, { task: task, status: "pending" }];
     setFilteredTasks(newTasks);
+    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
   return (
     <>
+      <AddTask addTask={addTask} />
+
       <div className="task-list">
         {filteredTasks.map((task, index) => {
           return (

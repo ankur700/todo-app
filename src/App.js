@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
-import AddTask from "./AddTask";
 import TabGroup from "./Tabs";
 
 function App() {
@@ -33,9 +32,6 @@ function App() {
       status: "pending",
     },
   ]);
-  const [itemsLeft, setItemLeft] = useState(
-    tasks.filter((task) => task.status === "pending").length
-  );
 
   // The function that toggles between themes
   const toggleTheme = () => {
@@ -46,12 +42,6 @@ function App() {
     } else {
       setTheme("light");
     }
-  };
-
-  const addTask = (task) => {
-    const newTasks = [...tasks, { task: task, status: "pending" }];
-    setTasks(newTasks);
-    setItemLeft(newTasks.filter((task) => task.status === "pending").length);
   };
 
   return (
@@ -98,8 +88,7 @@ function App() {
                 </div>
               </div>
 
-              <AddTask addTask={addTask} />
-              <TabGroup tasks={tasks} theme={theme} itemsLeft={itemsLeft} />
+              <TabGroup tasks={tasks} />
             </div>
           </div>
           <div className="attribution">
