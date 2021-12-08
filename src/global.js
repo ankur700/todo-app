@@ -269,11 +269,14 @@ body {
 input[type="text"] {
   height: 50px;
   border: 0;
-  width: 100%;
+  width: 90%;
   outline: none;
   padding: 0.5rem;
   appearance: none;
   background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 input[type="text"]:focus{
   appearance: none;
