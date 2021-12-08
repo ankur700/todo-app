@@ -143,13 +143,17 @@ function App() {
                 <h1 className="title">Todo</h1>
                 <div className="icon">
                   <img
-                    className="theme-icon"
+                    className={
+                      theme === "light" ? "theme-icon" : "theme-icon hidden"
+                    }
                     src="./images/icon-moon.svg"
                     alt="moon icon"
                     onClick={toggleTheme}
                   />
                   <img
-                    className="theme-icon hidden"
+                    className={
+                      theme === "dark" ? "theme-icon" : "theme-icon hidden"
+                    }
                     src="./images/icon-sun.svg"
                     alt="sun icon"
                     onClick={toggleTheme}
