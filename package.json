@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "react": "next",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "next",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.3",
