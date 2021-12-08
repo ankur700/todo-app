@@ -293,6 +293,10 @@ input[type="text"]:focus{
   gap: 1rem;
 }
 
+.attribution {
+  margin-top: 3rem;
+}
+
 @media only screen and (min-width: 600px) {
   .hero {
     height: 280px;

@@ -170,25 +170,26 @@ function App() {
                 clearCompleted={clearCompleted}
               />
             </div>
-          </div>
-          <div className="attribution">
-            Challenge by
-            <a
-              href="https://www.frontendmentor.io?ref=challenge"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Frontend Mentor
-            </a>
-            . Coded by
-            <a
-              href="https://dev.page/ankursinghchauhan"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ankur Singh Chauhan
-            </a>
-            .
+            <div className="attribution">
+              <p>
+                {" Challenge by "}
+                <a
+                  href="https://www.frontendmentor.io?ref=challenge"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Frontend Mentor
+                </a>
+                {". Coded by "}
+                <a
+                  href="https://dev.page/ankursinghchauhan"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Ankur Singh Chauhan
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </>
