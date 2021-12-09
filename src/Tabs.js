@@ -23,12 +23,10 @@ function TabGroup({
   active,
   types,
   itemsLeft,
-  filteredTasks,
   clearCompleted,
   tasks,
 }) {
-  const [order, updatePosition, updateOrder] =
-    usePositionReorder(filteredTasks);
+  const [order, updatePosition, updateOrder] = usePositionReorder(tasks);
 
   return (
     <>

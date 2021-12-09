@@ -45,8 +45,6 @@ function App() {
   const [active, setActive] = useState(types[0]);
   const [tasks, setTasks] = useState(DATA);
 
-  const [filteredTasks, setFilteredTasks] = useState([...tasks]);
-
   const [itemsLeft, setItemLeft] = useState(
     tasks.filter((task) => task.status === "pending").length
   );
@@ -66,19 +64,19 @@ function App() {
     setActive(type);
 
     if (type === "All") {
-      setFilteredTasks(tasks);
+      setTasks(tasks);
       setItemLeft(tasks.filter((task) => task.status === "pending").length);
     } else if (type === "Active") {
       // const Tasks = [...newTasks];
       const activeTasks = tasks.filter((task) => task.status === "pending");
-      setFilteredTasks(activeTasks);
+      setTasks(activeTasks);
       setItemLeft(tasks.filter((task) => task.status === "pending").length);
     } else if (type === "Completed") {
       // const Tasks = [...newTasks];
       const completedTasks = tasks.filter(
         (task) => task.status === "completed"
       );
-      setFilteredTasks(completedTasks);
+      setTasks(completedTasks);
       setItemLeft(0);
     }
   };
@@ -92,22 +90,18 @@ function App() {
     }
     const newTasks = [...tasks];
     setTasks(newTasks);
-    setFilteredTasks(tasks);
     setItemLeft(tasks.filter((task) => task.status === "pending").length);
   };
 
   const removeTask = (index) => {
     const newTasks = [...tasks];
-
     newTasks.splice(index, 1);
     setTasks(newTasks);
-    setFilteredTasks(newTasks);
     setItemLeft(itemsLeft - 1);
   };
 
   const addTask = (task) => {
     const newTasks = [...tasks, { task: task, status: "pending" }];
-    setFilteredTasks(newTasks);
     setTasks(newTasks);
     setItemLeft(itemsLeft + 1);
   };
@@ -118,7 +112,6 @@ function App() {
     // console.log(newTasks);
 
     setTasks(newTasks);
-    setFilteredTasks(newTasks);
   };
 
   return (
@@ -178,7 +171,6 @@ function App() {
                 types={types}
                 active={active}
                 itemsLeft={itemsLeft}
-                filteredTasks={filteredTasks}
                 clearCompleted={clearCompleted}
               />
             </div>
