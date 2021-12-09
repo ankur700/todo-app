@@ -1,47 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./theme";
 import { GlobalStyles } from "./global";
 import TabGroup from "./Tabs";
 import AddTask from "./AddTask";
 
+const DATA = [
+  {
+    id: "1",
+    task: "Complete online JavaScript course.",
+    status: "completed",
+  },
+  {
+    id: "2",
+    task: "Jog around the park 3x.",
+    status: "pending",
+  },
+  {
+    id: "3",
+    task: "10 minutes meditation.",
+    status: "pending",
+  },
+  {
+    id: "4",
+    task: "Read for 1 hour.",
+    status: "pending",
+  },
+  {
+    id: "5",
+    task: "Pick up groceries.",
+    status: "pending",
+  },
+  {
+    id: "6",
+    task: "Complete Todo App on Frontend Mentor.",
+    status: "pending",
+  },
+];
+
 function App() {
   const types = ["All", "Active", "Completed"];
 
   const [theme, setTheme] = useState("light");
   const [active, setActive] = useState(types[0]);
-  const [tasks, setTasks] = useState([
-    {
-      id: "1",
-      task: "Complete online JavaScript course.",
-      status: "completed",
-    },
-    {
-      id: "2",
-      task: "Jog around the park 3x.",
-      status: "pending",
-    },
-    {
-      id: "3",
-      task: "10 minutes meditation.",
-      status: "pending",
-    },
-    {
-      id: "4",
-      task: "Read for 1 hour.",
-      status: "pending",
-    },
-    {
-      id: "5",
-      task: "Pick up groceries.",
-      status: "pending",
-    },
-    {
-      id: "6",
-      task: "Complete Todo App on Frontend Mentor.",
-      status: "pending",
-    },
-  ]);
+  const [tasks, setTasks] = useState(DATA);
 
   const [filteredTasks, setFilteredTasks] = useState([...tasks]);
 
@@ -119,14 +121,6 @@ function App() {
     setFilteredTasks(newTasks);
   };
 
-  function handleOnDragEnd(result) {
-    const items = Array.from(filteredTasks);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setFilteredTasks(items);
-  }
-
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <>
@@ -186,7 +180,6 @@ function App() {
                 itemsLeft={itemsLeft}
                 filteredTasks={filteredTasks}
                 clearCompleted={clearCompleted}
-                handleOnDragEnd={handleOnDragEnd}
               />
             </div>
             <div className="attribution">

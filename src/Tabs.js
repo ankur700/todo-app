@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-// import Task from "./Task";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
+import Task from "./Task";
+import { usePositionReorder } from "./UsePositionReorder";
 const Tab = styled.div`
   cursor: pointer;
   border: 0;
@@ -27,95 +26,41 @@ function TabGroup({
   filteredTasks,
   clearCompleted,
   tasks,
-  handleOnDragEnd,
 }) {
+  const [order, updatePosition, updateOrder] =
+    usePositionReorder(filteredTasks);
+
   return (
     <>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="filteredTasks">
-          {(provided) => (
-            <div
-              className="task-list"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {filteredTasks.map((task, index) => {
-                return (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <>
-                        <div
-                          key={task.id}
-                          className="item"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          <div
-                            className="right flex"
-                            data-checked={task.status}
-                          >
-                            <div
-                              className="check"
-                              onClick={() => completeTask(task)}
-                            >
-                              <img
-                                className="check-icon"
-                                src="./images/icon-check.svg"
-                                alt="check icon"
-                              />
-                            </div>
-                            <div
-                              className="todo-item"
-                              style={{
-                                textDecoration:
-                                  task.status === "completed"
-                                    ? "line-through"
-                                    : "",
-                              }}
-                            >
-                              {task.task}
-                            </div>
-                          </div>
-                          <img
-                            className="cross"
-                            src="./images/icon-cross.svg"
-                            alt="icon cross"
-                            onClick={() => removeTask(index)}
-                          />
-                        </div>
-                        {/* <Task
-                        task={task}
-                        index={index}
-                        key={index}
-                        completeTask={completeTask}
-                        removeTask={removeTask}
-
-                      /> */}
-                      </>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-              <div className="mob-bottom">
-                <div className="mob-corners">{itemsLeft} items left</div>
-                <div
-                  className="mob-corners"
-                  onClick={() =>
-                    clearCompleted([
-                      tasks.filter((task) => task.status !== "pending"),
-                    ])
-                  }
-                >
-                  Clear Completed
-                </div>
-              </div>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-
+      <div className="task-list">
+        {order.map((task, index, height) => {
+          return (
+            <Task
+              task={task}
+              index={index}
+              key={task.id}
+              height={height}
+              completeTask={completeTask}
+              removeTask={removeTask}
+              updatePosition={updatePosition}
+              updateOrder={updateOrder}
+            />
+          );
+        })}
+        <div className="mob-bottom">
+          <div className="mob-corners">{itemsLeft} items left</div>
+          <div
+            className="mob-corners"
+            onClick={() =>
+              clearCompleted([
+                tasks.filter((task) => task.status !== "pending"),
+              ])
+            }
+          >
+            Clear Completed
+          </div>
+        </div>
+      </div>
       <ButtonGroup className="footer">
         <div className="corner">{itemsLeft} items left</div>
         <div className="desktop-bottom">
