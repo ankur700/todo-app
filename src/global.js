@@ -141,10 +141,6 @@ body {
   cursor: pointer;
 }
 
-#dark .check {
-  border: 1px solid ${({ theme }) => theme.radioCheckBg};
-}
-
 #light .check {
   border: 1px solid ${({ theme }) => theme.lighttext};
 }
@@ -298,26 +294,32 @@ input[type="text"]:focus{
 }
 
 @media only screen and (min-width: 600px) {
+  body{
+    font-size: 2rem !important;
+  }
   .hero {
     height: 280px;
   }
 
   .tasks {
-    max-width: 25rem;
+    max-width: 45rem;
     margin-top: 5rem;
   }
 
 
   #light .check {
-    border: 1px solid ${({ theme }) => theme.lighttext};
+    border: 3px solid ${({ theme }) => theme.lighttext};
   }
 
   #light .check:hover {
-  border: 1px solid ${({ theme }) => theme.darkertext};
+    border: 3px solid ${({ theme }) => theme.darkertext};
   }
 
+  #dark .check{
+    border: 3px solid ${({ theme }) => theme.darkertext};
+  }
   #dark .check:hover {
-    border: 1px solid linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border: 3px solid linearGradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
   }
 
   .mob-bottom {
@@ -337,6 +339,28 @@ input[type="text"]:focus{
     display: flex;
     justify-content: space-between;
     gap: 1rem;
+  }
+
+  input[type="text"] , .new-task, .item, .mob-bottom, .footer{
+    height: 80px;
+  }
+
+  .todo-item, .mob-bottom, .footer,  input[type="text"]  {
+    font-size: 1.25rem;
+  }
+
+  .check {
+    height: 30px;
+    width: 30px;
+  }
+
+  .item .right {
+    gap: 2rem;
+  }
+
+  .item .cross {
+    height: 20px;
+    width: 20px;
   }
 
   

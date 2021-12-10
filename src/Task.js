@@ -3,7 +3,7 @@ function Task({ task, index, completeTask, removeTask }) {
     <>
       <div className="item">
         <div className="right flex" data-checked={task.status}>
-          <div className="check" onClick={() => completeTask(task, index)}>
+          <div className="check" onClick={() => completeTask(task)}>
             <img
               className="check-icon"
               src="./images/icon-check.svg"

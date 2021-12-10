@@ -18,5 +18,5 @@ export const darkTheme = {
   verydarktext: "hsl(237, 14%, 26%)",
 
   primaryblue: "hsl(220, 98%, 61%)",
-  radioCheckbg: "linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
+  radioCheckBg: "linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))",
 };

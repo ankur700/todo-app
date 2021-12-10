@@ -45,11 +45,15 @@ function App() {
   const types = ["All", "Active", "Completed"];
   const [active, setActive] = useState(types[0]);
 
-  const [orderedTasks, setOrderedTasks] = useState([...tasks]);
+  const [orderedTasks, setOrderedTasks] = useState([]);
 
   const [itemsLeft, setItemLeft] = useState(
     tasks.filter((task) => task.status === "pending").length
   );
+
+  useEffect(() => {
+    setOrderedTasks(DATA);
+  }, []);
 
   // The function that toggles between themes
   const toggleTheme = () => {
@@ -92,7 +96,6 @@ function App() {
     }
     const newTasks = [...tasks];
     setTasks(newTasks);
-    setOrderedTasks(tasks);
     setItemLeft(tasks.filter((task) => task.status === "pending").length);
   };
 
@@ -125,10 +128,6 @@ function App() {
     setOrderedTasks(order);
   };
 
-  // useEffect(() => {
-  //   setOrderedTasks(DATA);
-  // }, []);
-
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <>
@@ -139,7 +138,7 @@ function App() {
               <picture>
                 <source
                   id="hero-image-small"
-                  media="(min-width: 375px )"
+                  media="(max-width: 375px )"
                   srcSet={"./images/bg-mobile-" + theme + ".jpg"}
                 />
                 <source
