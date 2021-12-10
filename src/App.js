@@ -39,11 +39,13 @@ const DATA = [
 ];
 
 function App() {
-  const types = ["All", "Active", "Completed"];
-
   const [theme, setTheme] = useState("light");
-  const [active, setActive] = useState(types[0]);
+
   const [tasks, setTasks] = useState(DATA);
+  const types = ["All", "Active", "Completed"];
+  const [active, setActive] = useState(types[0]);
+
+  const [orderedTasks, setOrderedTasks] = useState([...tasks]);
 
   const [itemsLeft, setItemLeft] = useState(
     tasks.filter((task) => task.status === "pending").length
@@ -64,19 +66,19 @@ function App() {
     setActive(type);
 
     if (type === "All") {
-      setTasks(tasks);
+      setOrderedTasks(tasks);
       setItemLeft(tasks.filter((task) => task.status === "pending").length);
     } else if (type === "Active") {
       // const Tasks = [...newTasks];
       const activeTasks = tasks.filter((task) => task.status === "pending");
-      setTasks(activeTasks);
+      setOrderedTasks(activeTasks);
       setItemLeft(tasks.filter((task) => task.status === "pending").length);
     } else if (type === "Completed") {
       // const Tasks = [...newTasks];
       const completedTasks = tasks.filter(
         (task) => task.status === "completed"
       );
-      setTasks(completedTasks);
+      setOrderedTasks(completedTasks);
       setItemLeft(0);
     }
   };
@@ -90,18 +92,22 @@ function App() {
     }
     const newTasks = [...tasks];
     setTasks(newTasks);
+    setOrderedTasks(tasks);
     setItemLeft(tasks.filter((task) => task.status === "pending").length);
   };
 
   const removeTask = (index) => {
     const newTasks = [...tasks];
+
     newTasks.splice(index, 1);
     setTasks(newTasks);
+    setOrderedTasks(newTasks);
     setItemLeft(itemsLeft - 1);
   };
 
   const addTask = (task) => {
     const newTasks = [...tasks, { task: task, status: "pending" }];
+    setOrderedTasks(newTasks);
     setTasks(newTasks);
     setItemLeft(itemsLeft + 1);
   };
@@ -112,7 +118,16 @@ function App() {
     // console.log(newTasks);
 
     setTasks(newTasks);
+    setOrderedTasks(newTasks);
   };
+
+  const reorder = (order) => {
+    setOrderedTasks(order);
+  };
+
+  // useEffect(() => {
+  //   setOrderedTasks(DATA);
+  // }, []);
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
@@ -162,16 +177,17 @@ function App() {
                 </div>
               </div>
               <AddTask addTask={addTask} />
-
               <TabGroup
                 tasks={tasks}
                 completeTask={completeTask}
                 removeTask={removeTask}
+                clearCompleted={clearCompleted}
+                orderedTasks={orderedTasks}
+                reorder={reorder}
                 filter={filter}
+                itemsLeft={itemsLeft}
                 types={types}
                 active={active}
-                itemsLeft={itemsLeft}
-                clearCompleted={clearCompleted}
               />
             </div>
             <div className="attribution">
